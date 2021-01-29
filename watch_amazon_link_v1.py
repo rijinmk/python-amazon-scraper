@@ -39,4 +39,4 @@ while True:
 
     print(current_time, price, stock)
     
-    time.sleep(4)
+    time.sleep(60 * 5)

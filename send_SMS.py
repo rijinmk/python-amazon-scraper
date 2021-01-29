@@ -16,7 +16,7 @@ message = client.messages.create(
     to='+971565912018'
 )
 
-print(json.loads(message))
+print(json.(message))
 
 # for i in dir(message): 
 #     try: 

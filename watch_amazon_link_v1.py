@@ -15,10 +15,19 @@ import time
 import bs4
 from datetime import datetime
 import sys
-import winsound
+import os
+try: 
+    import winsound
+except: 
+    pass
 
 url = "https://www.amazon.ae/gp/product/B08HHFL27C"
 
+def playASound():
+    if sys.platform == "win32":
+        winsound.PlaySound("*", winsound.SND_ALIAS)
+    elif sys.platform == "darwin":
+        os.system('say Oh my god buy now')
 
 while True: 
     page = requests.get(url)
@@ -43,10 +52,6 @@ while True:
     
     time.sleep(60 * 5)
 
-    def playASound():
-        if sys.platform == "win32":
-            winsound.PlaySound("*", winsound.SND_ALIAS)
-        elif sys.platform == "darwin":
-            sys.stdout.write('\a')
+
 
     

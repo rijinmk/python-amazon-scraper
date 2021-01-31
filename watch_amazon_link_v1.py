@@ -14,6 +14,8 @@ import urllib2
 import time
 import bs4
 from datetime import datetime
+import sys
+import winsound
 
 url = "https://www.amazon.ae/gp/product/B08HHFL27C"
 
@@ -32,7 +34,7 @@ while True:
     current_time = now.strftime("%D - %H:%M:%S")
 
     if(price < 2500):
-        # @Ben: Play sound here
+        playASound()
         print("BUY NOW: ")
     else: 
         print("Don't buy: ")
@@ -40,3 +42,11 @@ while True:
     print(current_time, price, stock)
     
     time.sleep(60 * 5)
+
+    def playASound():
+        if sys.platform == "win32":
+            winsound.PlaySound("*", winsound.SND_ALIAS)
+        elif sys.platform == "darwin":
+            sys.stdout.write('\a')
+
+    

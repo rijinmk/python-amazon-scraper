@@ -71,14 +71,14 @@
             for(var key in data){
                 let currObj = data[key];
                 for(var i=0; i<currObj.length; i++){
-                    if(currObj[i].price < 3300){
+                    if(currObj[i].price < 2500){
                         console.log(currObj[i].price);
                         const audio = new Audio("/view/notification_sound.mp3");
                         audio.play();
                     }
                     $('.results_container').append(
                     `
-                    <a href="${currObj[i].link}" class="result ${(currObj[i].price < 2500) ? " green" : "red" }">
+                    <a target="_blank" href="${currObj[i].link}" class="result ${(currObj[i].price < 2500) ? " green" : "red" }">
                         <img class="result__image" src="${currObj[i].image}"></img>
                         <h3>${currObj[i].name}</h3>
                         <h4>AED <span class="price">${currObj[i].price}</span> </h4>

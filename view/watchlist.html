@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@100;300;500&display=swap" rel="stylesheet">
+    <style>
+        html, body{
+            height:100%;
+        }
+        body{
+            font-family: 'IBM Plex Mono', monospace;
+            background: #e0e0e0;
+            display:flex;
+            flex-direction: column;
+        }
+        .results_container{
+            display:flex;
+            justify-content: center;
+            align-items:center;
+            flex-wrap: wrap;
+        }
+        a{
+            color:#000;
+            text-decoration: none;
+        }
+        .result{
+            /* border:1px solid red; */
+            display:inline-block;
+            padding:50px;
+            border-radius:15px;
+            background: #e0e0e0;
+            box-shadow: 10px 10px 20px #c7c7c7,
+            -10px -10px 20px #f9f9f9;
+            margin:30px;
+            max-width:200px;
+        }
+
+        .result.red{
+            background-color:#fab1a0;
+        }
+
+        .result.green{
+            background-color:#81ecec;
+        }
+    </style>
+</head>
+<body>
+    <div class="results_container">
+    </div>
+</body>
+    <script src="jq.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script>
+        $.get('http://127.0.0.1:5500/view/scrapred_results.json', function(data){
+            for(var key in data){
+                let currObj = data[key];
+                for(var i=0; i<currObj.length; i++){
+                    $('.results_container').append(
+                    `
+                    <a href="${currObj[i].link}" class="result ${(currObj[i].price < 2500) ? " green" : "red" }">
+                        <div class="result__image"
+                            style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/a/a0/Bill_Gates_2018.jpg');">
+                        </div>
+                        <h3>${currObj[i].name}</h3>
+                        <h4>AED <span class="price">${currObj[i].price}</span> </h4>
+                        <p>Review: <span class="reviews">${currObj[i].reviews}</span> </p>
+                        <p>Stars: <span class="stars">${currObj[i].stars}</span> </p>
+                        <pre>${moment(key).fromNow()}</pre>
+                    </a>
+                    `
+                    ); 
+                }
+            }
+        });
+    </script>
+</html>

@@ -43,7 +43,7 @@ while True:
     current_time = now.strftime("%D - %H:%M:%S")
 
     if(price < 2500):
-        playASound()
+        # playASound()
         print("BUY NOW: ")
     else: 
         print("Don't buy: ")

@@ -29,7 +29,7 @@
         .result{
             /* border:1px solid red; */
             display:inline-block;
-            padding:50px;
+            padding:30px;
             border-radius:15px;
             background: #e0e0e0;
             box-shadow: 10px 10px 20px #c7c7c7,
@@ -37,6 +37,19 @@
             margin:30px;
             max-width:200px;
         }
+
+        .result__image{
+            width:100%;
+            height:200px;
+        }
+
+        .stars{
+            font-size:9px;
+        }
+
+        .price{
+            font-size:40px;
+        } 
 
         .result.red{
             background-color:#fab1a0;
@@ -58,16 +71,19 @@
             for(var key in data){
                 let currObj = data[key];
                 for(var i=0; i<currObj.length; i++){
+                    if(currObj[i].price < 3300){
+                        console.log(currObj[i].price);
+                        const audio = new Audio("/view/notification_sound.mp3");
+                        audio.play();
+                    }
                     $('.results_container').append(
                     `
                     <a href="${currObj[i].link}" class="result ${(currObj[i].price < 2500) ? " green" : "red" }">
-                        <div class="result__image"
-                            style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/a/a0/Bill_Gates_2018.jpg');">
-                        </div>
+                        <img class="result__image" src="${currObj[i].image}"></img>
                         <h3>${currObj[i].name}</h3>
                         <h4>AED <span class="price">${currObj[i].price}</span> </h4>
                         <p>Review: <span class="reviews">${currObj[i].reviews}</span> </p>
-                        <p>Stars: <span class="stars">${currObj[i].stars}</span> </p>
+                        <p>Stars: <span class="stars">${currObj[i].star}</span> </p>
                         <pre>${moment(key).fromNow()}</pre>
                     </a>
                     `

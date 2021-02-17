@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@100;300;500&display=swap" rel="stylesheet">
+    <style>
+        html, body{
+            height:100%;
+        }
+        body{
+            font-family: 'IBM Plex Mono', monospace;
+            background: #e0e0e0;
+            display:flex;
+            flex-direction: column;
+        }
+        .results_container{
+            display:flex;
+            justify-content: center;
+            align-items:center;
+            flex-wrap: wrap;
+        }
+        a{
+            color:#000;
+            text-decoration: none;
+        }
+        .result{
+            /* border:1px solid red; */
+            display:inline-block;
+            padding:30px;
+            border-radius:15px;
+            background: #e0e0e0;
+            box-shadow: 10px 10px 20px #c7c7c7,
+            -10px -10px 20px #f9f9f9;
+            margin:30px;
+            max-width:200px;
+        }
+
+        .result__image{
+            width:100%;
+            height:200px;
+        }
+
+        .stars{
+            font-size:9px;
+        }
+
+        .price{
+            font-size:40px;
+        } 
+
+        .result.red{
+            background-color:#fab1a0;
+        }
+
+        .result.green{
+            background-color:#81ecec;
+        }
+    </style>
+</head>
+<body>
+    <div class="results_container">
+    </div>
+</body>
+    <script src="jq.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script>
+        $.get('http://127.0.0.1:5500/view/scrapred_results.json', function(data){
+            for(var key in data){
+                let currObj = data[key];
+                for(var i=0; i<currObj.length; i++){
+                    if(currObj[i].price < 2500){
+                        console.log(currObj[i].price);
+                        const audio = new Audio("/view/notification_sound.mp3");
+                        audio.play();
+                    }
+                    $('.results_container').append(
+                    `
+                    <a target="_blank" href="${currObj[i].link}" class="result ${(currObj[i].price < 2500) ? " green" : "red" }">
+                        <img class="result__image" src="${currObj[i].image}"></img>
+                        <h3>${currObj[i].name}</h3>
+                        <h4>AED <span class="price">${currObj[i].price}</span> </h4>
+                        <p>Review: <span class="reviews">${currObj[i].reviews}</span> </p>
+                        <p>Stars: <span class="stars">${currObj[i].star}</span> </p>
+                        <pre>${moment(key).fromNow()}</pre>
+                    </a>
+                    `
+                    ); 
+                }
+            }
+        });
+    </script>
+</html>
